@@ -2,7 +2,7 @@
   <div id="classify">
     <!-- 左侧分类模块 GO -->
     <van-tree-select
-      height="90vh"
+      height="93vh"
       :items="items"
       :active-id.sync="activeIds"
       :main-active-index.sync="active"
@@ -11,7 +11,7 @@
     <!-- 右侧展示模块 GO -->
       <template #content>
         <!-- if 是否显示 GO -->
-        <div class="van-image-da" v-show="active === active">
+        <div class="van-image-da" v-show="active === active" ref="imageDa">
           <!-- 遍历展示内容 GO -->
           <div class="van-image-box" v-for="(item,index) in list" :key="index">
             <!-- 组件懒加载 GO -->
@@ -70,7 +70,7 @@ export default {
   },
   mounted() {
     //发送分类请求
-    this.Cartoonlist() 
+    this.Cartoonlist()     
   },
   methods: {
     // 
@@ -110,14 +110,16 @@ export default {
   min-width: 6rem;
 }
 .van-tree-select__content {
-  min-width: 18rem;
+  min-width: 10rem;
 }
 .van-image-da {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .van-image-box {
   flex: 0 0 1;
+  min-width: 7rem;
   width: 8.125rem;
   height: 15rem;
   margin-top: 1rem;
@@ -142,10 +144,10 @@ export default {
 .footer .gotop {
   text-align: center;
   position: fixed;
-  right: 50px;
-  bottom: 30px;
+  right: 3.125rem;
+  bottom: 1.875rem;
   cursor: pointer;
-  padding: 10px;
+  padding: 0.625rem;
   border-radius: 50%;
   background: white;
   color: #000000;

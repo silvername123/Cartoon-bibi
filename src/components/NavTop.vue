@@ -66,7 +66,7 @@ export default {
         // 加载提示
         let toast = this.$toast.loading({
           duration: 0, // 持续展示 toast
-          message: '加载中...',
+          message: '搜索中...',
           forbidClick: false,
         })
         // 请求搜索数据

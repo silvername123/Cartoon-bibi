@@ -35,23 +35,24 @@
     </div>
     <!-- 头部nav end -->
     <!-- 内容 GO -->
-    <div class="cartoon-click" @click="cartoonClick()">
+    <div v-if="cartoonListIf == false" class="cartoon-click" @click="cartoonClick()">
     <div class="cartoon-image" v-for="(item,index) in list" :key="index">
       <van-image  lazy-load :src="item.img" width="100%" height="100%"/>
     </div>
     </div>
     <!-- 内容 end -->
     <!-- 底部 GO -->
-    <div class="nav-bottom" :class="{'nav-hidden-display':hiddenDisplay == true}">
-      <div class="nav-bottom-box" @click="showPopup">
-        <van-icon name="orders-o" size="2rem"/>
-        <span>目录</span>
+    <div class="nav-bottom"   :class="{'nav-hidden-display':hiddenDisplay == true}">
+      <div class="nav-bottom-box">
+        <span class="nav-last" @click="navLastClick()">上一章</span>
+        <van-icon name="orders-o"  size="2rem"/>
+        <span class="mulu" @click="showPopup()">目录</span>
+        <span class="nav-next" @click="navNextClick()">下一章</span>
       </div>
     </div>
     <!-- 底部 end -->
-
     <!-- 弹出层 GO -->
-     <van-popup v-model="show" position="bottom" :style="{height: '30%' }" >
+     <van-popup v-model="show" :overlay="false" :round="true" position="bottom" :style="{height: '30%' }" >
        <ul class="popupList">
          <li v-for="(item,index) in nameList.numList" :key="index" :class="{'pink':pinkIndex === index}" @click="urlClick(item.url,item.num,index)">{{item.num}}</li>
        </ul>
@@ -72,6 +73,7 @@ export default {
       pinkIndex:0, // 当前章节高亮
       cartoonIf: false,
       description:'',
+      cartoonListIf:false, //重新加载漫画内容
     }
   },
   mounted() {
@@ -83,28 +85,59 @@ export default {
     async CartoonData(url) {
       let res = await CartoonData(url)
       this.$store.commit('vuexCartoonList', res)
+      this.cartoonListIf = false
     },
     // 点击退回上一级
     onClickLeft() {
       this.$router.go(-1)
     },
+    // 点击是否显示头部和底部nav
     cartoonClick() {
        this.hiddenDisplay = !this.hiddenDisplay
+       this.show = false;
     },
+    // 是否显示弹出层
     showPopup() {
       this.show = true;
     },
+    // 点击目录章节
     urlClick(url,num,index) {
+      this.cartoonListIf = true
       this.nameList.num = num
       this.CartoonData(url)
       this.pinkIndex = index
-      console.log(index);
-    }
+    },
+    // 点击上一章
+     navLastClick() {
+       // 判断是否到第一章
+      if (this.pinkIndex === 0) {
+        this.$toast('没有上一章了');
+      } else {
+        this.cartoonListIf = true
+        let uurl = this.nameList.numList[--this.pinkIndex]
+        this.nameList.num = uurl.num
+        this.CartoonData(uurl.url)
+      }
+    },
+    // 点击下一章
+    navNextClick() {
+      // 判断是否到最后一章
+      if (this.pinkIndex === (this.nameList.numList.length - 1)) {
+        this.$toast('没有下一章了');
+      } else {
+        this.cartoonListIf = true
+        let uurl = this.nameList.numList[++this.pinkIndex]
+        this.nameList.num = uurl.num
+        this.CartoonData(uurl.url)
+      }
+   }
+    
   },
   watch: {
+    // 监听
     '$store.state.cartoonList'(val, oldVal) {
       this.list = val.list
-      console.log(val);
+      // this.navLast = this.nameList.nameList[this.pinkIndex++]
       if (val.code === 1) {
         this.cartoonIf = true
         this.description = val.message
@@ -153,6 +186,7 @@ export default {
 div >>> .van-image__img {
   width: 100%;
   height: 100%;
+  margin-top: -0.25rem;
 }
 .nav-hidden-display {
   display: none;
@@ -192,6 +226,20 @@ div>>>.van-popup {
   letter-spacing: 0;
   font-weight: bold;
   text-shadow: 0px 0.1875rem 0.3125rem #595959;
+}
+.mulu {
+  position: absolute;
+  top: 0rem;
+  line-height: 3rem; 
+  font-size: 1.5rem;
+}
+.nav-last {
+  position: absolute;
+  left: 2rem;
+}
+.nav-next {
+  position: absolute;
+  right: 2rem;
 }
 .popupList {
   color: #fff;

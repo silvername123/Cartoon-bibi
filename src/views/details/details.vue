@@ -278,6 +278,7 @@ export default {
 .catalog ul {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   padding-bottom: 0px;
   height: 100%;
   overflow: scroll;

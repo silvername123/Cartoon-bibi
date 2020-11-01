@@ -2,11 +2,12 @@
   <div id="recommend">
     <!-- 列表 GO -->
     <van-list class="van-lists1" v-model="loading" :finished="finished" finished-text="没有更多了">
-      <van-cell-group  class="van-cell-group1" v-for="(item,index) in list" :key="index">
+      <div ref="vanlist" >
+      <van-cell-group  class="van-cell-group1" v-for="(item,index) in list" :key="index" >
         <!-- 图片 GO -->
         <lazy-component>
         <div class="image-img">
-          <van-image class="imgg1" fit="contain"  :src="item.cover" show-error show-loading lazy-load @click="vanimageClick(item.url)" />
+          <van-image class="imgg1" fit="contain" width="15rem" height="20rem"  :src="item.cover" show-error show-loading lazy-load @click="vanimageClick(item.url)" />
         </div>
         <!-- 图片end -->
       <!-- name GO -->
@@ -14,6 +15,7 @@
       <!-- neme end -->
       </lazy-component>
       </van-cell-group>
+      </div>
     </van-list>
     <!-- 列表 end -->
   </div>
@@ -32,6 +34,22 @@ export default {
   },
   created() {
     this.RecommendData()
+  },
+   //进入路由即触发 created()只触发一次
+  activated (){
+    //this.$nextTick()异步执行dom刷新
+    this.$nextTick(() => {
+        // console.log(this.$homeScroll);
+        window.scrollTo(0, this.$homeScroll);
+    })
+  },
+  //离开路由时
+  beforeRouteLeave(to, from, next){
+    // console.log(to);
+    //全局变量homeScroll默认为0 离开页面时 记录当前的页面滚动值
+    this.$homeScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    //需要执行next函数 否则不起作用
+    next(); 
   },
   methods: {
     async RecommendData() {

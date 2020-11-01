@@ -9,6 +9,12 @@ Vue.use(vant)
 
 Vue.config.productionTip = false
 
+
+//main.js
+let homeScrollTop = 0;
+Vue.prototype.$homeScroll = homeScrollTop;
+
+
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {

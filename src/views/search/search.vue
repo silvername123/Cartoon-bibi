@@ -61,13 +61,13 @@ export default {
 #search {
   padding: 4rem 0rem 0rem 0rem;
   max-width: 50rem;
-  min-width: 25rem;
+  min-width: 15rem;
   margin: auto;
 }
 .search-result {
   display: flex;
   flex-wrap: wrap;
-  justify-content: end;
+  justify-content: flex-end;
   justify-content: space-evenly
 }
 .search-result-img {
