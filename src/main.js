@@ -3,7 +3,19 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// 引入vant按需引入的文件
+import vant from './components/vant'
+Vue.use(vant)
+
 Vue.config.productionTip = false
+
+router.beforeEach((to, from, next) => {
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})
 
 new Vue({
   router,

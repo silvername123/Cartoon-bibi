@@ -1,27 +1,55 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+
+const Recommend = () => import('@/views/recommend/recommend.vue')
+const Classify = () => import('@/views/classify/classify.vue')
+const Search = () => import('@/views/search/search.vue')
+const Details = () => import('@/views/details/details.vue')
+const CartoonContent = () => import('@/views/CartoonContent/Cartooncontent.vue')
 
 Vue.use(VueRouter)
 
 const routes = [
+  { path: '/', redirect: 'recommend' },
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/recommend', name: 'recommend', component: Recommend, meta: {
+      keepAlive: true ,// 需要被缓存
+      title: 'bibi漫画'
+    }
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/classify', name: 'classify', component: Classify, meta: {
+      keepAlive: true, // 需要被缓存
+      title: 'bibi漫画-分类'
+    }
+  },
+  {
+    path: '/search', name: 'search', component: Search, meta: {
+      keepAlive: false, // 不需要缓存
+      title: 'bibi漫画-搜索'
+    }
+  },
+  {
+    path: '/details', name: 'details', component: Details, meta: {
+      keepAlive: true, // 需要缓存
+      title: 'bibi漫画-详情'
+    }
+  },
+  {
+    path: '/cartooncontent', name: 'cartooncontent', component: CartoonContent, meta: {
+      keepAlive: false, // 不需要缓存
+      title: '看漫画就来bibi漫画'
+    }
   }
+
 ]
 
+
 const router = new VueRouter({
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router
