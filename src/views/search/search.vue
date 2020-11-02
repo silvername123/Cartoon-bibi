@@ -41,9 +41,30 @@ export default {
   mounted() {
     this.list = this.$store.state.clist.list
   },
+   //进入路由即触发 created()只触发一次
+  activated (){
+    //this.$nextTick()异步执行dom刷新
+    this.$nextTick(() => {
+        // console.log(this.$homeScroll);
+        window.scrollTo(0, this.$homeScroll);
+    })
+  },
+  //离开路由时
+  beforeRouteLeave(to, from, next){
+    // console.log(to);
+    //全局变量homeScroll默认为0 离开页面时 记录当前的页面滚动值
+    this.$homeScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    //需要执行next函数 否则不起作用
+    next(); 
+  },
   methods: {
     //点击进入详情页面
     resultClick(url) {
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '加载中...',
+        forbidClick: false,
+      });
       this.$router.push('/details')
       this.$store.dispatch('DetailsData',url)
     }

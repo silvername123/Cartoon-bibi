@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: '/search', name: 'search', component: Search, meta: {
-      keepAlive: false, // 不需要缓存
+      keepAlive: true, // 不需要缓存
       title: 'bibi漫画-搜索'
     }
   },

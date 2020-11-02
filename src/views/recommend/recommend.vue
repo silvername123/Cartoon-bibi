@@ -63,9 +63,13 @@ export default {
     },
     // 点击进入详情
     vanimageClick(url) {
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '加载中...',
+        forbidClick: false,
+      });
       this.$router.push('/details')
       this.$store.dispatch('DetailsData',url)
-      this.$toast.clear();
     },
   }
 

@@ -139,11 +139,6 @@ export default {
   watch: {
     // 监听搜索内容的变化并赋值
     '$store.state.detailsList'(val, oldVal) {
-      this.$toast.loading({
-        duration: 0, // 持续展示 toast
-        message: '加载中...',
-        forbidClick: false,
-      });
       this.list = val.list
       this.iData = val.data
       this.iVal = val.code
