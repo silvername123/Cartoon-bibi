@@ -34,13 +34,22 @@
       <!-- TOP name end -->
     </div>
     <!-- 头部nav end -->
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+      :immediate-check="false"
+      :offset="5"
+      >
     <!-- 内容 GO -->
-    <div v-if="cartoonListIf == false" class="cartoon-click" @click="cartoonClick()">
+    <div  v-if="cartoonListIf == false" class="cartoon-click" @click="cartoonClick()">
     <div class="cartoon-image" v-for="(item,index) in list" :key="index">
       <van-image  lazy-load :src="item.img" width="100%" height="100%"/>
     </div>
     </div>
     <!-- 内容 end -->
+    </van-list>
     <!-- 底部 GO -->
     <div class="nav-bottom"   :class="{'nav-hidden-display':hiddenDisplay == true}">
       <div class="nav-bottom-box">
@@ -74,6 +83,8 @@ export default {
       cartoonIf: false,
       description:'',
       cartoonListIf:false, //重新加载漫画内容
+      loading: false, //是否触发加载了
+      finished: false, // 是否内容加载完了
     }
   },
   mounted() {
@@ -83,9 +94,19 @@ export default {
   methods: {
      // 漫画内容数据的请求
     async CartoonData(url) {
+      // 拿到数据
       let res = await CartoonData(url)
+      // 传值 res 给VUEX mutations里的vuexCartoonList
       this.$store.commit('vuexCartoonList', res)
+      //重新加载漫画内容
       this.cartoonListIf = false
+      this.loading = true;
+      // 为了让 onLoad() 只触发一次
+      setTimeout(()=>{
+        this.loading = false;
+      },1000)
+      // 关闭提示
+       this.$toast.clear();
     },
     // 点击退回上一级
     onClickLeft() {
@@ -102,9 +123,13 @@ export default {
     },
     // 点击目录章节
     urlClick(url,num,index) {
-      this.cartoonListIf = true
+      // 重新加载内容
+      this.cartoonListIf = true 
+      // 重新赋值章节名字
       this.nameList.num = num
+      // 点击章节发送请求
       this.CartoonData(url)
+      //点击章节高亮
       this.pinkIndex = index
     },
     // 点击上一章
@@ -113,9 +138,19 @@ export default {
       if (this.pinkIndex === 0) {
         this.$toast('没有上一章了');
       } else {
+        // 提示即将进入上一章
+        this.$toast.loading({
+          duration: 0, // 持续展示 toast
+          message: '即将进入上一章',
+          forbidClick: true,
+        });
+        // 重新加载新的内容
         this.cartoonListIf = true
+        // 拿到上一章的名字和url
         let uurl = this.nameList.numList[--this.pinkIndex]
+        // 重新赋值章节名字
         this.nameList.num = uurl.num
+        // 发送内容请求
         this.CartoonData(uurl.url)
       }
     },
@@ -124,17 +159,34 @@ export default {
       // 判断是否到最后一章
       if (this.pinkIndex === (this.nameList.numList.length - 1)) {
         this.$toast('没有下一章了');
+        // 是否没有内容加载了
+        this.finished = true 
       } else {
+        // 提示即将进入下一章
+        this.$toast.loading({
+          duration: 0, // 持续展示 toast
+          message: '即将进入下一章',
+          forbidClick: true,
+        });
+        // 重新加载新的内容
         this.cartoonListIf = true
+        // 拿到下一章的名字和url
         let uurl = this.nameList.numList[++this.pinkIndex]
+        // 重新赋值章节名字
         this.nameList.num = uurl.num
+        // 发送内容请求
         this.CartoonData(uurl.url)
       }
-   }
+   },
+  //  滚动到底部后触发
+    onLoad() {
+      // 下一章
+        this.navNextClick()
+    },
     
   },
   watch: {
-    // 监听
+    // 监听VUEX state里的cartoonList内容变化并且赋值
     '$store.state.cartoonList'(val, oldVal) {
       this.list = val.list
       // this.navLast = this.nameList.nameList[this.pinkIndex++]

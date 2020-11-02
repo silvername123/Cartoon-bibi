@@ -61,9 +61,11 @@ export default {
           this.finished = true
         }
     },
+    // 点击进入详情
     vanimageClick(url) {
       this.$router.push('/details')
       this.$store.dispatch('DetailsData',url)
+      this.$toast.clear();
     },
   }
 
