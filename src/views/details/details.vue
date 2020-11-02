@@ -122,7 +122,7 @@ export default {
       } else {
         this.icon = 'ascending',
         this.order = '正序'
-      } 
+      }
     },
      // 漫画内容数据的请求
      async CartoonData(url) {

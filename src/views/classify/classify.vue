@@ -9,9 +9,10 @@
       @click-nav="classifyClick(items[active].id,active)"
     > 
     <!-- 右侧展示模块 GO -->
-      <template #content>
+      <template #content >
         <!-- if 是否显示 GO -->
-        <div class="van-image-da" v-show="active === active" ref="imageDa">
+        <div class="van-image-scroll"  ref="imageDa">
+        <div class="van-image-da" v-show="active === active" >
           <!-- 遍历展示内容 GO -->
           <div class="van-image-box" v-for="(item,index) in list" :key="index">
             <!-- 组件懒加载 GO -->
@@ -19,10 +20,10 @@
               <van-image class="van-image1" :src="item.cover" show-error show-loading lazy-load  @click="vanImageClick(item.url)"/>
               <div class="van-ellipsis">{{item.name}}</div>
               <div class="van-ellipsis">更新至：{{item.latest}}</div>
-            
               <!-- 展示内容 end -->
           </div>
           <!-- 遍历展示内容 end -->
+        </div>    
         </div>
         <!-- if 是否显示 end -->
       </template>
@@ -72,6 +73,21 @@ export default {
     //发送分类请求
     this.Cartoonlist()     
   },
+   //进入路由即触发 created()只触发一次
+  activated (){
+    //this.$nextTick()异步执行dom刷新
+    this.$nextTick(() => {
+        // console.log(this.$homeScroll);
+        this.$refs.imageDa.scrollTo(0, this.$homeScroll);
+    })
+  },
+  //离开路由时
+  beforeRouteLeave(to, from, next){
+    //全局变量homeScroll默认为0 离开页面时 记录当前的页面滚动值
+    this.$homeScroll =  this.$refs.imageDa.scrollTop;
+    //需要执行next函数 否则不起作用
+    next(); 
+  },
   methods: {
     // 
     // 网络请求
@@ -111,6 +127,10 @@ export default {
 }
 .van-tree-select__content {
   min-width: 10rem;
+}
+.van-image-scroll {
+  height: 93vh;
+  overflow-y: auto;
 }
 .van-image-da {
   display: flex;
