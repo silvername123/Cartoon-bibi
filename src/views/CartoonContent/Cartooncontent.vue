@@ -15,8 +15,6 @@
       <van-empty  :description="description" />
     </div>
     <!-- 头部nav end -->
-
-
     <!-- 头部nav GO -->
     <div v-else class="details-content-nav" :class="{'nav-hidden-display':hiddenDisplay == true}">
       <!-- 退后区域 GO -->
