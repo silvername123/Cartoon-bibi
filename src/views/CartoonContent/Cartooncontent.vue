@@ -21,7 +21,7 @@
       <div class="nav-back">
         <img
           src="~/assets/img/normal-top-back.png"
-          style="height: 12px;line-height: 3rem; "
+          style="height: 12px;line-height: 3rem;"
           alt="退后"
           @click="onClickLeft()"
         >
