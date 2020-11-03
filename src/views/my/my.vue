@@ -1,5 +1,8 @@
 <template>
-  <div id="my">
+  <div v-if="list.length === 0">
+    <van-empty description="没有收藏的漫画" />
+  </div>
+  <div v-else id="my">
     <div class="myCollect " v-for="(item,index) in list" :key="index">
       <van-swipe-cell>
         <van-card @click="cardClick(item.list.url)"   :desc="item.list.latest" :title="item.list.name" class="goods-card" :thumb="item.list.cover"/>
@@ -20,15 +23,26 @@ export default {
     }
   },
   mounted(){
+    // 拿到本地存储的收藏数据
     let mlist = JSON.parse(window.localStorage.getItem('myList'))
+    // 把重复数据的剔除
     let sole= this.deteleObject(mlist) 
+    // 赋值
     this.list = sole
   },
   methods: {
     // 删除
     errClick(index) {
-      this.list.splice(index,1)
-      localStorage.setItem('myList', this.list)
+      // 拿到本地存储的收藏数据
+      let mlist = JSON.parse(window.localStorage.getItem('myList'))
+      // 删除对应的数据
+      mlist.splice(index,1)
+      // 赋值回去本地存储
+      window.localStorage.setItem('myList', JSON.stringify(mlist))
+      // 把重复数据的剔除
+      let sole = this.deteleObject(mlist)
+      // 赋值
+      this.list = sole
     },
     // 点击进去详情
     cardClick(url,index) {
@@ -39,7 +53,7 @@ export default {
       });
        this.$router.push({path:'/details',query:{url:url,collect:{list:this.list[index]}}})
     },
-    // 去除数组中重复的对象
+    // 封装去除数组中重复的对象
     deteleObject(obj) {
       var uniques = [];
       var stringify = {};

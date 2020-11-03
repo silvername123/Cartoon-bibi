@@ -147,6 +147,8 @@ export default {
     },
     //点击收藏
     collectClick() {
+      let get = JSON.parse(window.localStorage.getItem('myList'))
+      this.myList =  get
       this.myList.push(this.$route.query.collect)
       window.localStorage.setItem('myList', JSON.stringify(this.myList))
       this.$toast({
