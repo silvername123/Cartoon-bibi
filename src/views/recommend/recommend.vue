@@ -3,18 +3,18 @@
     <!-- 列表 GO -->
     <van-list class="van-lists1" v-model="loading" :finished="finished" finished-text="没有更多了">
       <div ref="vanlist" >
-      <van-cell-group  class="van-cell-group1" v-for="(item,index) in list" :key="index" >
-        <!-- 图片 GO -->
-        <lazy-component>
-        <div class="image-img">
-          <van-image class="imgg1" fit="contain" width="15rem" height="20rem"  :src="item.cover" show-error show-loading lazy-load @click="vanimageClick(item.url)" />
-        </div>
-        <!-- 图片end -->
-      <!-- name GO -->
-      <van-cell class="van-cell1" :title="item.name" size="large" :label="item.tag" />
-      <!-- neme end -->
-      </lazy-component>
-      </van-cell-group>
+        <van-cell-group  class="van-cell-group1" v-for="(item,index) in list" :key="index" @click="vanimageClick(item.url,index)">
+          <!-- 图片 GO -->
+          <lazy-component>
+          <div class="image-img">
+            <van-image class="imgg1" fit="contain" width="15rem" height="20rem"  :src="item.cover" show-error show-loading lazy-load />
+          </div>
+          <!-- 图片end -->
+        <!-- name GO -->
+        <van-cell class="van-cell1" :title="item.name" size="large" :label="item.tag" />
+        <!-- neme end -->
+        </lazy-component>
+        </van-cell-group>
       </div>
     </van-list>
     <!-- 列表 end -->
@@ -39,13 +39,11 @@ export default {
   activated (){
     //this.$nextTick()异步执行dom刷新
     this.$nextTick(() => {
-        // console.log(this.$homeScroll);
-        window.scrollTo(0, this.$homeScroll);
+      window.scrollTo(0, this.$homeScroll);
     })
   },
   //离开路由时
   beforeRouteLeave(to, from, next){
-    // console.log(to);
     //全局变量homeScroll默认为0 离开页面时 记录当前的页面滚动值
     this.$homeScroll = document.documentElement.scrollTop || document.body.scrollTop;
     //需要执行next函数 否则不起作用
@@ -62,14 +60,13 @@ export default {
         }
     },
     // 点击进入详情
-    vanimageClick(url) {
+    vanimageClick(url,index) {
       this.$toast.loading({
         duration: 0, // 持续展示 toast
         message: '加载中...',
         forbidClick: false,
       });
-      this.$router.push('/details')
-      this.$store.dispatch('DetailsData',url)
+      this.$router.push({path:'/details',query:{url,collect:{list:this.list[index]}}})
     },
   }
 
@@ -81,7 +78,7 @@ export default {
   padding: 3rem 0rem 1rem 0rem;
   text-align: center;
   font-size: 2rem;
-  max-width: 30rem;
+  max-width: 40rem;
   min-width: 20rem;
   margin: auto;
 }

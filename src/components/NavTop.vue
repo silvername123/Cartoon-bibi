@@ -33,14 +33,11 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      navList: ['推荐', '分类'],
+      navList: ['推荐', '分类','我的'],
       navIndex: 0,
       value: '',
       navTop: true
     }
-  },
-  created() {
-    this.navBox(this.navIndex)
   },
   methods: {
     // 点击跳转路由
@@ -52,6 +49,9 @@ export default {
       } else if (index === 1) {
         this.$toast.clear();
         this.$router.push('/classify').catch(err => err)
+      } else if  (index === 2) {
+         this.$toast.clear();
+        this.$router.push('/my').catch(err => err)
       }
     },
     // 点击搜索或按下回车键
@@ -95,6 +95,13 @@ watch: {
         this.navTop = false
       }else {
         this.navTop = true
+      }
+      if (val.name === 'recommend') {
+        this.navIndex = 0
+      } else if (val.name === 'classify') {
+        this.navIndex = 1
+      } else if (val.name === 'my') {
+        this.navIndex = 2
       }
     },
     // 深度观察监听

@@ -17,7 +17,7 @@
           <div class="van-image-box" v-for="(item,index) in list" :key="index">
             <!-- 组件懒加载 GO -->
               <!-- 展示内容 GO -->
-              <van-image class="van-image1" :src="item.cover" show-error show-loading lazy-load  @click="vanImageClick(item.url)"/>
+              <van-image class="van-image1" :src="item.cover" show-error show-loading lazy-load  @click="vanImageClick(item.url,index)"/>
               <div class="van-ellipsis">{{item.name}}</div>
               <div class="van-ellipsis">更新至：{{item.latest}}</div>
               <!-- 展示内容 end -->
@@ -77,7 +77,6 @@ export default {
   activated (){
     //this.$nextTick()异步执行dom刷新
     this.$nextTick(() => {
-        // console.log(this.$homeScroll);
         this.$refs.imageDa.scrollTo(0, this.$homeScroll);
     })
   },
@@ -106,14 +105,13 @@ export default {
       this.Cartoonlist()
     },
     // 点击进入详情内容
-    vanImageClick(url) {
+    vanImageClick(url,index) {
       this.$toast.loading({
         duration: 0, // 持续展示 toast
         message: '加载中...',
         forbidClick: false,
       });
-      this.$router.push('/details')
-      this.$store.dispatch('DetailsData',url)
+      this.$router.push({path:'/details',query:{url:url,collect:{list:this.list[index]}}})
     },
   }
 }

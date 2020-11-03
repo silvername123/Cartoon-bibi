@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import {DetailsData,CartoonData} from '@/api/network'
+// import {DetailsData,CartoonData} from '@/api/network'
 Vue.use(Vuex)
 
 
@@ -11,30 +11,36 @@ export default new Vuex.Store({
     detailsList:[],
     navTop:true,
     cartoonList:[],
+    // collecList:[]
   },
   mutations: {
     // 搜索数据
-    SearchList(state,list) {
+    SearchList(state, list) {
       state.clist = list
     },
     // 详情数据
     vuexDetails(state, step) {
        state.detailsList = step
     },
-    vuexNavTop(state,step) {
+    vuexNavTop(state, step) {
       state.navTop = step
     },
     // 漫画内容数据
-    vuexCartoonList(state,step) {
+    vuexCartoonList(state, step) {
       state.cartoonList = step
     },
+    // // 收藏数据
+    // vuexCollectList(state, step) {
+    //   state.collecList.push(step)
+    //   console.log(state.collecList);
+    // }
   },
   actions: {
     // 详情数据的请求
-    async DetailsData(context, step) {
-      let res = await DetailsData(step)
-      context.commit('vuexDetails', res)
-    }
+    // async DetailsData(context, step) {
+    //   let res = await DetailsData(step)
+    //   context.commit('vuexDetails', res)
+    // }
   },
 
   modules: {

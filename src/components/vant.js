@@ -1,7 +1,7 @@
 // 自动按需引入 Vant 组件
-import { Field, Button, List, Card, Cell, CellGroup, Image as VanImage,PullRefresh,Skeleton,Lazyload,TreeSelect,Search,Toast,NavBar, Loading,Icon,Empty,Popup } from 'vant'
+import { Field, Button, List, Card, Cell, CellGroup, Image as VanImage,PullRefresh,Skeleton,Lazyload,TreeSelect,Search,Toast,NavBar, Loading,Icon,Empty,Popup,SwipeCell,NoticeBar, Notify} from 'vant'
 
-let vantUIs = [Field, Button, List, Card, Cell, CellGroup,VanImage,PullRefresh,Skeleton,TreeSelect,Search,Toast,NavBar, Loading,Icon,Empty,Popup]
+let vantUIs = [Field, Button, List, Card, Cell, CellGroup,VanImage,PullRefresh,Skeleton,TreeSelect,Search,Toast,NavBar, Loading,Icon,Empty,Popup,SwipeCell,NoticeBar,Notify]
 export default {
   install(Vue) {
     vantUIs.forEach(vantUI => {

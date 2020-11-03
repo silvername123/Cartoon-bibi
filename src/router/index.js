@@ -6,6 +6,7 @@ const Classify = () => import('@/views/classify/classify.vue')
 const Search = () => import('@/views/search/search.vue')
 const Details = () => import('@/views/details/details.vue')
 const CartoonContent = () => import('@/views/CartoonContent/Cartooncontent.vue')
+const My = () => import('@/views/my/my.vue')
 
 Vue.use(VueRouter)
 
@@ -25,20 +26,26 @@ const routes = [
   },
   {
     path: '/search', name: 'search', component: Search, meta: {
-      keepAlive: true, // 不需要缓存
+      keepAlive: true, // 需要缓存
       title: 'bibi漫画-搜索'
     }
   },
   {
     path: '/details', name: 'details', component: Details, meta: {
-      keepAlive: true, // 需要缓存
+      keepAlive: false, // 不需要缓存
       title: 'bibi漫画-详情'
     }
   },
   {
     path: '/cartooncontent', name: 'cartooncontent', component: CartoonContent, meta: {
-      keepAlive: false, // 不需要缓存
+      keepAlive: false, // 需要缓存
       title: '看漫画就来bibi漫画'
+    }
+  },
+  {
+    path: '/my', name: 'my', component: My, meta: {
+      keepAlive: false, // 不需要缓存
+      title: '我的'
     }
   }
 
