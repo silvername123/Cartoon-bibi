@@ -39,6 +39,12 @@ export default {
       navTop: true
     }
   },
+  mounted() {
+    // 判断本地存储里面的收藏数据有没有创建 如果没有就创建一个空数组
+    if (window.localStorage.getItem('myList') === null) {
+      window.localStorage.setItem('myList', JSON.stringify([]))
+    }
+  },
   methods: {
     // 点击跳转路由
     navBox(index) {
