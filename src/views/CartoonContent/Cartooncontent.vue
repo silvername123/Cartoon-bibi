@@ -136,6 +136,8 @@ export default {
     },
     // 点击目录章节
     urlClick(url,num,index) {
+       // 禁止滚动加载
+      this.forbidOnLoad = false
        // 提示即将进入上一章
       this.$toast.loading({
         duration: 0, // 持续展示 toast
