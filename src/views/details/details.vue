@@ -264,7 +264,7 @@ export default {
   margin-top: 1.75rem;
   text-shadow: 0px 0.1875rem 0.3125rem #595959;
   display: inline-block;
-  width: 32%;
+  width: 90%;
   overflow: hidden;
   text-overflow:ellipsis;
   white-space: nowrap;

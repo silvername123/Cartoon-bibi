@@ -85,7 +85,9 @@ export default {
       loading: false, //是否触发加载了
       finished: false, // 是否内容加载完了
       name:[], //章节名字
-      url:''
+      url:'',
+      forbidOnLoad: true
+
     }
   },
   mounted() {
@@ -113,9 +115,11 @@ export default {
       // 为了让 onLoad() 只触发一次
       setTimeout(()=>{
         this.loading = false;
-      },1000)
+      },2000)
       // 关闭提示
        this.$toast.clear();
+      //  开启滚动加载
+       this.forbidOnLoad = true
     },
     // 点击退回上一级
     onClickLeft() {
@@ -150,6 +154,8 @@ export default {
     },
     // 点击上一章
     navLastClick() {
+      // 禁止滚动加载
+      this.forbidOnLoad = false
        // 判断是否到第一章
       if (this.pinkIndex === 0) {
         this.$toast('没有上一章了');
@@ -173,6 +179,8 @@ export default {
     },
     // 点击下一章
     navNextClick() {
+      // 禁止滚动加载
+      this.forbidOnLoad = false
       // 判断是否到最后一章
       if (this.pinkIndex === (this.nameList.length - 1)) {
         this.$toast('没有下一章了');
@@ -199,10 +207,19 @@ export default {
   //  滚动到底部后触发
     onLoad() {
       // 下一章
-      this.navNextClick()
-    },
-    
+      if (this.forbidOnLoad) {
+        this.navNextClick()
+      } else {
+        console.log('1');
+      }
+      
+    }, 
   },
+  watch: {
+     pinkIndex(val,oldVal) {
+       console.log(val,oldVal);
+     }
+  }
 }
 </script>
 
