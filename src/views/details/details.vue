@@ -45,7 +45,7 @@
             <span>{{iData.name}}</span>
             <p>{{iData.author}}</p>
             <p>{{iData.status}}</p>
-            <p>{{iData.tag}}</p>
+            <!-- <p>{{iData.tag}}</p> -->
             <p>{{iData.time}}</p>
           </div>
           <!-- 简介区域 GO -->

@@ -86,11 +86,12 @@ export default {
       finished: false, // 是否内容加载完了
       name:[], //章节名字
       url:'',
-      forbidOnLoad: true
+      forbidOnLoad: true, //是否禁止滚动加载
 
     }
   },
   mounted() {
+    this.forbidOnLoad = false
      let queryList = JSON.parse(this.$route.query.list)
     let query =  this.$route.query
     this.nameList = queryList.numList
@@ -211,16 +212,14 @@ export default {
       // 下一章
       if (this.forbidOnLoad) {
         this.navNextClick()
-      } else {
-        console.log('1');
-      }
+      } 
       
     }, 
   },
   watch: {
-     pinkIndex(val,oldVal) {
-       console.log(val,oldVal);
-     }
+    //  pinkIndex(val,oldVal) {
+    //    console.log(val,oldVal);
+    //  }
   }
 }
 </script>
