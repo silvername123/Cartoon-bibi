@@ -91,8 +91,10 @@ export default {
     }
   },
   mounted() {
+    // 禁止滚动加载
     this.forbidOnLoad = false
-     let queryList = JSON.parse(this.$route.query.list)
+    // 拿到数据
+    let queryList = JSON.parse(this.$route.query.list)
     let query =  this.$route.query
     this.nameList = queryList.numList
     this.pinkIndex = queryList.cindex
